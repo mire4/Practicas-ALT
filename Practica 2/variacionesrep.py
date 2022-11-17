@@ -10,9 +10,9 @@ def variacionesRepeticion(elementos, cantidad):
             for child in elementos:
                 sol[longSol] = child
                 yield from backtracking(longSol+1)
+            sol[longSol] = None    
     yield from backtracking(0)
 
 if __name__ == "__main__":    
     for x in variacionesRepeticion(['tomate','queso','anchoas'],3):
         print(x)
-
