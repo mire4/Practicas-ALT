@@ -1,5 +1,5 @@
 # AUTORA:
-# (poner aquí el nombre o 2 nombres del equipo de prácticas
+# Mireia Pires State
 
 def exact_cover(listaConjuntos):
     U = set().union(*listaConjuntos) # para saber qué universo tenemos
