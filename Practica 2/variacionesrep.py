@@ -1,5 +1,5 @@
 # AUTORES:
-# (poner aquí el nombre o 2 nombres del equipo de prácticas
+# Mireia Pires State
 
 def variacionesRepeticion(elementos, cantidad):
     sol = [None]*cantidad
@@ -8,8 +8,9 @@ def variacionesRepeticion(elementos, cantidad):
             yield sol.copy()
         else:
             for child in elementos:
-                sol[longSol] = child
-                yield from backtracking(longSol+1)
+                if (child not in elementos):
+                    sol[longSol] = child
+                    yield from backtracking(longSol+1)
             sol[longSol] = None    
     yield from backtracking(0)
 
