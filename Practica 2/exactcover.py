@@ -7,7 +7,7 @@ def exact_cover(listaConjuntos):
     solucion = []
     def backtracking(longSol, cjtAcumulado):
         # Caso base: El conjunto forma parte del universo
-        if set.union(*cjtAcumulado) == U:
+        if set().union(*cjtAcumulado) == U:
             yield solucion.copy()
         # Ramificamos
         elif longSol < N:
