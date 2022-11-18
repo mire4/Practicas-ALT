@@ -1,4 +1,4 @@
-# AUTORES:
+# AUTORA:
 # Mireia Pires State
 
 def variacionesRepeticion(elementos, cantidad):

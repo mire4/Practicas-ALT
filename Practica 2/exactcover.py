@@ -1,4 +1,4 @@
-# AUTORES:
+# AUTORA:
 # (poner aquí el nombre o 2 nombres del equipo de prácticas
 
 def exact_cover(listaConjuntos):
@@ -6,9 +6,19 @@ def exact_cover(listaConjuntos):
     N = len(listaConjuntos)
     solucion = []
     def backtracking(longSol, cjtAcumulado):
-        # COMPLETAR
-        # consulta los métodos isdisjoint y union de la clase set,
-        # podrías necesitarlos
+        # Caso base: El conjunto forma parte del universo
+        if set.union(*cjtAcumulado) == U:
+            yield solucion.copy()
+        # Ramificamos
+        elif longSol < N:
+            cjt = listaConjuntos[longSol]
+            # Comprobamos que sean disjuntos
+            if set().union(*cjtAcumulado).isdisjoint(cjt):
+                solucion.append(cjt)
+                yield from backtracking(longSol + 1, solucion)
+                solucion.pop()
+            # En culaquier otro caso ramificamos saltandonos cjt
+            yield from backtracking(longSol + 1, solucion)
     yield from backtracking(0, set())
 
 if __name__ == "__main__":
