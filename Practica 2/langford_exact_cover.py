@@ -2,8 +2,8 @@
 import sys
 from exactcover import exact_cover
 
-# AUTORES:
-# (poner aquí el nombre o 2 nombres del equipo de prácticas
+# AUTORA:
+# Mireia Pires State
 
 def langford_data_structure(N):
     # n1,n2,... means that the value has been used
@@ -14,8 +14,16 @@ def langford_data_structure(N):
         return sys.intern(f'p{i}')
     # crear la lista de conjuntos que resuelva la
     # secuencia de Langford con exact_cover
-    # COMPLETAR
-    # return U
+    U = {}
+    # Recorremos todos los numeros y posiciones
+    for n in range(1, N+1):
+        for p in range(1, 2*N):
+            siguientePos = p + n + 1
+            # Si la segunda posicion es valida, añadimos el conjunto al universo
+            if(siguientePos < 2*N):
+                U[value(n) + position(p)] = [position(p), position(p + (n + 1)), value(n)]
+    print(U)
+    return U
 
 def langford_exact_cover(N):
     if N%4 in (0,3):
