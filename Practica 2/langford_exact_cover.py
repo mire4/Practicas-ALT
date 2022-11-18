@@ -14,14 +14,14 @@ def langford_data_structure(N):
         return sys.intern(f'p{i}')
     # crear la lista de conjuntos que resuelva la
     # secuencia de Langford con exact_cover
-    U = {}
+    U = []
     # Recorremos todos los numeros y posiciones
     for n in range(1, N+1):
-        for p in range(1, 2*N):
+        for p in range(2*N):
             siguientePos = p + n + 1
             # Si la segunda posicion es valida, añadimos el conjunto al universo
             if(siguientePos < 2*N):
-                U[value(n) + position(p)] = [position(p), position(p + (n + 1)), value(n)]
+                U.append([position(p), position(siguientePos), value(n)])
     print(U)
     return U
 
