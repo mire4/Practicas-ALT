@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# AUTORES:
-# (poner aquí el nombre o 2 nombres del equipo de prácticas
+# AUTORA:
+# Mireia Pires State
 
 import sys
 
@@ -13,8 +13,17 @@ def langford(N):
             yield "-".join(map(str, seq))
         else:
             # buscamos una posicion para situar una pareja num
-            pass # COMPLETAR
-
+            # Queremos saber tanto el indice como el valor
+            for ind, valor in enumerate(seq):
+                # Calculamos la segunda posicion donde bede ir el numero
+                siguientePos = ind + num + 1
+                if siguientePos < N2 and valor == 0 and seq[siguientePos] == 0:
+                    # Insertamos los dos numeros iguales en sus posiciones
+                    seq[ind] = num
+                    seq[siguientePos] = num
+                    yield from backtracking(num - 1)
+                    seq[ind] = 0
+                    seq[siguientePos] = 0
     if N%4 in (0,3):
         yield from backtracking(N)
 
