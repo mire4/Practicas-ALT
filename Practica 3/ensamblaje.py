@@ -43,14 +43,15 @@ def voraz_x_pieza(costMatrix):
 def voraz_x_instante(costMatrix):
     # costMatrix[i,j] el coste de situar pieza i en instante j
     M = costMatrix.shape[0] # nº piezas
+    N = costMatrix.shape[1] # nº instantes
     solution = []
     score = 0
-    for i in range(M):
+    for instante in range(N): # Por columnas
         costeMin = float('inf')
-        for pieza, cost in enumerate(costMatrix[i]):
-            if cost < costeMin and i not in solution:
+        for pieza, cost in enumerate(costMatrix[:, instante]):
+            if cost < costeMin and pieza not in solution:
                 costeMin = cost
-                x = i
+                x = pieza
         solution.append(x)
         score += costeMin
     return score, solution
@@ -169,7 +170,7 @@ def functionRyP(costMatrix):
 
 cjtAlgoritmos = {'naif': naive_solution,
                  'x_pieza': voraz_x_pieza,
-                 #'x_instante': voraz_x_instante,
+                 'x_instante': voraz_x_instante,
                  #'x_coste': voraz_x_coste,
                  #'combina': voraz_combina,
                  #'RyP': functionRyP
