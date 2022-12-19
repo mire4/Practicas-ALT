@@ -4,7 +4,7 @@ import collections
 
 ######################################################################
 #                                                                    #
-#                     GENERACIÓN DE INSTANCIAS                       #
+#                     GENERACION DE INSTANCIAS                       #
 #                                                                    #
 ######################################################################
 
@@ -27,23 +27,37 @@ def naive_solution(costMatrix):
 
 def voraz_x_pieza(costMatrix):
     # costMatrix[i,j] el coste de situar pieza i en instante j
-    M = costMatrix.shape[0] # nº piezas
-
-    # COMPLETAR
-    
+    M = costMatrix.shape[0] # nÂº piezas
+    solution = []
+    score = 0
+    for pieza in range(M):
+        costeMin = float('inf')
+        for i, cost in enumerate(costMatrix[pieza]):
+            if cost < costeMin and i not in solution:
+                costeMin = cost
+                x = i
+        solution.append(x)
+        score += costeMin
     return score, solution
 
 def voraz_x_instante(costMatrix):
     # costMatrix[i,j] el coste de situar pieza i en instante j
-    M = costMatrix.shape[0] # nº piezas
-
-    # COMPLETAR
-    
+    M = costMatrix.shape[0] # nÂº piezas
+    solution = []
+    score = 0
+    for i in range(M):
+        costeMin = float('inf')
+        for pieza, cost in enumerate(costMatrix[i]):
+            if cost < costeMin and i not in solution:
+                costeMin = cost
+                x = i
+        solution.append(x)
+        score += costeMin
     return score, solution
 
 def voraz_x_coste(costMatrix):
     # costMatrix[i,j] el coste de situar pieza i en instante j
-    M = costMatrix.shape[0] # nº piezas
+    M = costMatrix.shape[0] # nÂº piezas
 
     # COMPLETAR
    
@@ -57,7 +71,7 @@ def voraz_combina(costMatrix):
         
 ######################################################################
 #                                                                    #
-#                       RAMIFICACIÓN Y PODA                          #
+#                       RAMIFICACION Y PODA                          #
 #                                                                    #
 ######################################################################
 
@@ -69,15 +83,15 @@ class Ensamblaje:
         costMatrix[i,j] es el coste de ensamblar la pieza i cuando ya
         se han ensamblado j piezas.
         '''
-        # no haría falta pero por si acaso comprobamos que costMatrix
+        # no harï¿½a falta pero por si acaso comprobamos que costMatrix
         # es una matriz numpy cuadrada y de costMatrix positivos
         assert(type(costMatrix) is np.ndarray and len(costMatrix.shape) == 2
                and costMatrix.shape[0] == costMatrix.shape[1]
                and costMatrix.dtype == int and costMatrix.min() >= 0)
         self.costMatrix = costMatrix
         self.M = costMatrix.shape[0]
-        # la forma más barata de ensamblar la pieza i si podemos
-        # elegir el momento de ensamblaje que más nos convenga:
+        # la forma mï¿½s barata de ensamblar la pieza i si podemos
+        # elegir el momento de ensamblaje que mï¿½s nos convenga:
         self.minPieza = [costMatrix[i, :].min() for i in range(self.M)]
         self.x = initial_sol
         if initial_sol is None:
@@ -88,21 +102,21 @@ class Ensamblaje:
     def branch(self, s_score, s):
         '''
         s_score es el score de s
-        s es una soluciÃƒÂ³n parcial
+        s es una soluciï¿½?Â³n parcial
         '''
         i = len(s) # i es la siguiente pieza a montar, i < M
         
         # costMatrix[i, j] coste ensamblar objeto i en instante j
         for j in range(self.M): # todos los instantes
             # si j no ha sido utilizado en s
-            if j not in s: # NO es la forma más eficiente
+            if j not in s: # NO es la forma mï¿½s eficiente
                            # al ser lineal con len(s)
                 new_score = s_score - self.minPieza[i] + self.costMatrix[i, j]
                 yield (new_score, s + [j])
 
     def is_complete(self, s):
         '''
-        s es una soluciÃƒÂ³n parcial
+        s es una soluciï¿½?Â³n parcial
         '''
         return len(s) == self.M
 
@@ -111,10 +125,10 @@ class Ensamblaje:
 
     def solve(self):
         A = [self.initial_solution()] # cola de prioridad
-        iterations = 0 # nº iteraciones
-        gen_states = 0 # nº estados generados
-        podas_opt  = 0 # nº pod  as por cota optimista
-        maxA       = 0 # tamaño máximo alzanzado por A
+        iterations = 0 # nï¿½ iteraciones
+        gen_states = 0 # nï¿½ estados generados
+        podas_opt  = 0 # nï¿½ pod  as por cota optimista
+        maxA       = 0 # tamaï¿½o mï¿½ximo alzanzado por A
         # bucle principal ramificacion y poda (PODA IMPLICITA)
         while len(A) > 0 and A[0][0] < self.fx:
             iterations += 1
@@ -149,16 +163,17 @@ def functionRyP(costMatrix):
 
 ######################################################################
 #                                                                    #
-#                        EXPERIMENTACIÓN                             #
+#                        EXPERIMENTACION                             #
 #                                                                    #
 ######################################################################
 
 cjtAlgoritmos = {'naif': naive_solution,
                  'x_pieza': voraz_x_pieza,
-                 'x_instante': voraz_x_instante,
-                 'x_coste': voraz_x_coste,
-                 'combina': voraz_combina,
-                 'RyP': functionRyP}
+                 #'x_instante': voraz_x_instante,
+                 #'x_coste': voraz_x_coste,
+                 #'combina': voraz_combina,
+                 #'RyP': functionRyP
+                }
 
 
 def probar_ejemplo():
@@ -166,7 +181,7 @@ def probar_ejemplo():
                         [9, 9, 4, 1],
                         [9, 4, 8, 1],
                         [3, 4, 8, 4]], dtype=int)
-    
+    print(ejemplo)
     for label, function in cjtAlgoritmos.items():
         score, solution = function(ejemplo)
         print(f'Algoritmo {label:10}', solution, score)
@@ -211,6 +226,6 @@ def probar_ryp():
 if __name__ == '__main__':
     probar_ejemplo()
     print('-' * 70)
-    probar_ryp()
-    print('-' * 70)
-    comparar_algoritmos()
+    #probar_ryp()
+    #print('-' * 70)
+    #comparar_algoritmos()
