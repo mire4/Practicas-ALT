@@ -42,26 +42,45 @@ def voraz_x_pieza(costMatrix):
 
 def voraz_x_instante(costMatrix):
     # costMatrix[i,j] el coste de situar pieza i en instante j
-    M = costMatrix.shape[0] # nº piezas
-    N = costMatrix.shape[1] # nº instantes
+    aux = []
     solution = []
     score = 0
-    for instante in range(N): # Por columnas
-        costeMin = float('inf')
+    piezaSeleccionada = None
+    for instante in range(costMatrix.shape[1]): # Por columnas
+        costMin = float('inf')
         for pieza, cost in enumerate(costMatrix[:, instante]):
-            if cost < costeMin and pieza not in solution:
-                costeMin = cost
-                x = pieza
-        solution.append(x)
-        score += costeMin
+            if cost < costMin and pieza not in solution:
+                costMin = cost
+                piezaSeleccionada = pieza
+        aux.append(piezaSeleccionada)
+        score += costMin
+    for pieza in range(costMatrix.shape[0]):
+        for piezaSol in range(len(aux)):
+            if (pieza == aux[piezaSol]):
+                solution.append(piezaSol)
     return score, solution
 
 def voraz_x_coste(costMatrix):
     # costMatrix[i,j] el coste de situar pieza i en instante j
-    M = costMatrix.shape[0] # nº piezas
-
-    # COMPLETAR
-   
+    # Crear lista de elementos ordenados por valor
+    ordenados = [(i, j, costMatrix[i][j]) for i in range(costMatrix.shape[0]) for j in range(costMatrix.shape[1])]
+    ordenados = sorted(ordenados, key = lambda x: x[2])
+    # Inicializar contadores
+    piezasUtilizadas = []
+    instantesUtilizados = []
+    score = 0
+    solution = []
+    # Recorrer elementos ordenados
+    for fila, columna, valor in ordenados:
+        # Si hay piezas y instantes disponibles, utilizar elemento
+        if fila not in piezasUtilizadas and columna not in instantesUtilizados:
+            piezasUtilizadas.append(fila)
+            instantesUtilizados.append(columna)
+            score += valor
+    for p, pieza in enumerate(piezasUtilizadas):
+        for i, instante in enumerate(instantesUtilizados):
+            if p == i:
+                solution.insert(pieza, instante)
     return score, solution
 
 def voraz_combina(costMatrix):
@@ -171,7 +190,7 @@ def functionRyP(costMatrix):
 cjtAlgoritmos = {'naif': naive_solution,
                  'x_pieza': voraz_x_pieza,
                  'x_instante': voraz_x_instante,
-                 #'x_coste': voraz_x_coste,
+                 'x_coste': voraz_x_coste,
                  #'combina': voraz_combina,
                  #'RyP': functionRyP
                 }
