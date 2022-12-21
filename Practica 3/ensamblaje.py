@@ -85,9 +85,18 @@ def voraz_x_coste(costMatrix):
 
 def voraz_combina(costMatrix):
     
-    # COMPLETAR
-    
-    return score, solution
+    scorePieza, solutionPieza = voraz_x_pieza(costMatrix)
+    scoreInstante, solutionInstante = voraz_x_instante(costMatrix)
+    scoreCoste, solutionCoste = voraz_x_coste(costMatrix)
+
+    min_score = min([scorePieza, scoreInstante, scoreCoste])
+
+    if min_score == scorePieza:
+        return scorePieza, solutionPieza
+    elif min_score == scoreInstante:
+        return scoreInstante, solutionInstante
+    else:
+        return scoreCoste, solutionCoste
         
 ######################################################################
 #                                                                    #
@@ -191,8 +200,8 @@ cjtAlgoritmos = {'naif': naive_solution,
                  'x_pieza': voraz_x_pieza,
                  'x_instante': voraz_x_instante,
                  'x_coste': voraz_x_coste,
-                 #'combina': voraz_combina,
-                 #'RyP': functionRyP
+                 'combina': voraz_combina,
+                 'RyP': functionRyP
                 }
 
 
@@ -246,6 +255,6 @@ def probar_ryp():
 if __name__ == '__main__':
     probar_ejemplo()
     print('-' * 70)
-    #probar_ryp()
-    #print('-' * 70)
-    #comparar_algoritmos()
+    probar_ryp()
+    print('-' * 70)
+    comparar_algoritmos()
