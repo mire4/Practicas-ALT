@@ -72,7 +72,7 @@ def voraz_x_coste(costMatrix):
     solution = []
     # Recorrer elementos ordenados
     for fila, columna, valor in ordenados:
-        # Si hay piezas y instantes disponibles, utilizar elemento
+        # Si hay piezas e instantes disponibles, utilizar elemento
         if fila not in piezasUtilizadas and columna not in instantesUtilizados:
             piezasUtilizadas.append(fila)
             instantesUtilizados.append(columna)
